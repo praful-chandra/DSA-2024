@@ -13,10 +13,10 @@ class LinkedList {
 
   print() {
     let currentElement = this.head;
-    const listedElements = []
-    while(currentElement){
-        listedElements.push(currentElement)
-        currentElement = currentElement.next;
+    const listedElements = [];
+    while (currentElement) {
+      listedElements.push(currentElement);
+      currentElement = currentElement.next;
     }
 
     console.log(listedElements);
@@ -71,8 +71,8 @@ class LinkedList {
   }
 
   shift() {
-    if(!this.head){
-        return undefined;
+    if (!this.head) {
+      return undefined;
     }
 
     const nodeToDelete = this.head;
@@ -80,59 +80,56 @@ class LinkedList {
     this.head = this.head.next;
 
     return nodeToDelete;
-
   }
 
-  getFirst () {
-    if(!this.head){
-        return undefined;
+  getFirst() {
+    if (!this.head) {
+      return undefined;
     }
 
     return this.head;
   }
 
-  getLast () {
-    if(!this.head){
-        return undefined;
+  getLast() {
+    if (!this.head) {
+      return undefined;
     }
 
     return this.tail;
   }
 
-  getByIndex (index) {
-
+  getByIndex(index) {
     let element = this.head;
 
-    for(let i = 0; i< index ; i++){
-        if(!element){
-            break;
-        }
-        element = element.next;
+    for (let i = 0; i < index; i++) {
+      if (!element) {
+        break;
+      }
+      element = element.next;
     }
 
     return element;
   }
 
-  set(index,value) {
+  set(index, value) {
     const indexedElement = this.getByIndex(index);
-    if(!indexedElement){
-        return false;
+    if (!indexedElement) {
+      return false;
     }
 
     indexedElement.head = value;
 
-    return true
+    return true;
   }
 
-  insert(index,value) {
-
-    if(index === 0){
-        return this.unshift(value);
+  insert(index, value) {
+    if (index === 0) {
+      return this.unshift(value);
     }
 
     const previousIndexedElement = this.getByIndex(index - 1);
-    if(!previousIndexedElement){
-        return false;
+    if (!previousIndexedElement) {
+      return false;
     }
 
     const newNode = new Node(value);
@@ -142,23 +139,53 @@ class LinkedList {
     return true;
   }
 
-  getSize(){
+  getSize() {
     let length = 0;
     let currentElement = this.head;
 
-    while(currentElement){
-        length += 1;
-        currentElement = currentElement.next;
+    while (currentElement) {
+      length += 1;
+      currentElement = currentElement.next;
     }
 
     return length;
   }
 
-  clear(){
+  clear() {
     this.head = null;
     this.tail = null;
 
     return true;
+  }
+
+  reverse() {
+    const swapElements = (element, swapVal) => {
+      if (element.next !== null) {
+        swapElements(element.next, element);
+      }
+      element.next = swapVal;
+      return;
+    };
+    const oldTail = this.tail;
+    this.tail = this.head;
+    this.head = oldTail;
+    swapElements(this.tail, null);
+  }
+
+  reverseNoRecursion (){
+    let temp = this.head;
+    this.head = this.tail;
+    this.tail = temp;
+
+    let next = temp;
+    let prev = null;
+
+    while(next !== null){
+      temp = next.next;
+      next.next = prev;
+      prev = next;
+      next = temp;
+    }
   }
 }
 
@@ -168,15 +195,23 @@ list.push(1);
 list.push(2);
 list.push(3);
 list.push(4);
-list.print()
-console.log("SIZE => ", list.getSize())
-console.log("INSERT - ", list.insert(1, 99))
-list.print()
-console.log("SIZE => ", list.getSize())
-console.log("CLEAR => ", list.clear())
-
+list.push(5);
 list.print();
-console.log(list)
+console.log("-----------------REVERST-------------------");
+list.reverse();
+list.print();
+console.log("-----------------REVERST - NO rec-------------------");
+list.reverseNoRecursion();
+list.print();
+
+// console.log("SIZE => ", list.getSize())
+// console.log("INSERT - ", list.insert(1, 99))
+// list.print()
+// console.log("SIZE => ", list.getSize())
+// console.log("CLEAR => ", list.clear())
+
+// list.print();
+// console.log(list)
 
 // console.log("POP => ", list.pop());
 // console.log("UNSHIFT => ", list.unshift(99));
@@ -188,4 +223,3 @@ console.log(list)
 // console.log("INDEX - 3", list.getByIndex(3));
 // console.log("INDEX - 4", list.getByIndex(4));
 // console.log("INDEX - 5", list.getByIndex(5));
-
