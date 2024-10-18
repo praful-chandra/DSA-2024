@@ -87,6 +87,47 @@ class BST {
 
     console.log(data);
   }
+
+  dfsPostOrder() {
+    const stack = [];
+    const data = [];
+
+    const addToStack = (node) => {
+      stack.push(node);
+      if (node.left) {
+        addToStack(node.left);
+      }
+      if (node.right) {
+        addToStack(node.right);
+      }
+      const popped = stack.pop();
+      data.push(popped.head);
+    };
+    addToStack(this.root);
+
+    console.log(data);
+  }
+
+  dfsInOrder() {
+    const stack = [];
+    const data = [];
+
+    const addToStack = (node) => {
+      stack.push(node);
+      if (node.left) {
+        addToStack(node.left);
+      }
+      const popped = stack.pop();
+      data.push(popped.head);
+      if (node.right) {
+        addToStack(node.right);
+      }
+    };
+
+    addToStack(this.root);
+
+    console.log(data);
+  }
 }
 
 const bstree = new BST();
@@ -99,4 +140,4 @@ bstree.push(8);
 bstree.push(6);
 bstree.push(9);
 
-bstree.bfs();
+bstree.dfsInOrder();
