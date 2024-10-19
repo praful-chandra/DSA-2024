@@ -39,3 +39,26 @@ function check(nums: number[]): boolean {
 }
 
 console.log("[3,4,5,1,2] ==> ", check([3, 4, 5, 1, 2]));
+
+
+function check_anotherway(nums: number[]): boolean {
+
+    let rotateIndex = 0;
+
+    for (let i = 0; i < nums.length - 1; i++) {
+        if (nums[i] > nums[i + 1]) {
+            if(rotateIndex > 0){
+                return false;
+            }
+            rotateIndex = i + 1
+        }
+    }
+
+    if(rotateIndex > 0 && nums[0] < nums[nums.length-1]){
+        return false;
+    }
+
+    return true
+};
+
+console.log("Another way[3,4,5,1,2] ==> ", check_anotherway([3, 4, 5, 1, 2]));
