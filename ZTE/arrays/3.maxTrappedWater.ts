@@ -30,36 +30,36 @@ function trap(height: number[]): number {
 function trapOptimized(height: number[]): number {
   let maxTrapped = 0;
 
-  let leftWall = 0;
-  let rightWall = 1;
-  let blockedVolume = 0;
+  let leftWallPointer = 0;
+  let rightWallPointer = height.length - 1;
 
-  while (rightWall < height.length) {
-    if (
-      height[rightWall] > height[leftWall] ||
-      rightWall === height.length - 1
-    ) {
-      const containerHeight = Math.min(height[leftWall], height[rightWall]);
-      const containerWidth = rightWall - leftWall - 1;
-      const containerVolume = containerHeight * containerWidth - blockedVolume;
+  let maxLeftWall = 0;
+  let maxRightWall = 0;
 
-      maxTrapped += Math.max(0, containerVolume);
+  while (rightWallPointer > leftWallPointer) {
+    const valLeft = height[leftWallPointer];
+    const valRight = height[rightWallPointer];
 
-      console.log({
-        leftWall,
-        rightWall,
-        containerVolume: containerVolume + blockedVolume,
-        blockedVolume,
-        maxTrapped,
-      });
+    if (valLeft < valRight) {
+      if (maxLeftWall < valLeft) {
+        maxLeftWall = valLeft;
+      } else {
+        const waterTrappedAboveCurrent = maxLeftWall - valLeft;
+        maxTrapped += waterTrappedAboveCurrent;
+      }
 
-      leftWall = rightWall;
-      rightWall++;
-      blockedVolume = 0;
-    } else {
-      blockedVolume += height[rightWall];
-      rightWall++;
+      leftWallPointer++;
+      continue;
     }
+
+    if (maxRightWall < valRight) {
+      maxRightWall = valRight;
+    } else {
+      const waterTrappedAboveCurrent = maxRightWall - valRight;
+      maxTrapped += waterTrappedAboveCurrent;
+    }
+    rightWallPointer--;
+    continue;
   }
 
   return maxTrapped;
@@ -67,5 +67,5 @@ function trapOptimized(height: number[]): number {
 
 console.log(
   "[0,1,0,2,1,0,1,3,2,1,2,1] ===> ",
-  trapOptimized([0,1,0,2,1,0,1,3,2,1,2,1])
+  trapOptimized([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])
 );
