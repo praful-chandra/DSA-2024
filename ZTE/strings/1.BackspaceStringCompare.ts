@@ -36,8 +36,32 @@ function backspaceCompareOptimized(s: string, t: string): boolean {
   let sPointer = s.length - 1;
   let tPointer = t.length - 1;
 
-  while (sPointer >= 0 && tPointer >= 0) {
-    if (s[sPointer] !== "#" && t[tPointer] !== "#") {
+  while (sPointer >= 0 || tPointer >= 0) {
+    if (s[sPointer] === "#" || t[tPointer] === "#") {
+      let backCount = 0;
+      if (s[sPointer] === "#") {
+        backCount = 2;
+        while (backCount > 0) {
+          sPointer--;
+          backCount--;
+          if (s[sPointer] === "#") {
+            backCount += 2;
+          }
+        }
+      }
+      backCount = 0;
+      if (t[tPointer] === "#") {
+        backCount = 2;
+
+        while (backCount > 0) {
+          tPointer--;
+          backCount--;
+          if (t[tPointer] === "#") {
+            backCount += 2;
+          }
+        }
+      }
+    } else {
       if (s[sPointer] !== t[tPointer]) {
         return false;
       }
@@ -45,21 +69,12 @@ function backspaceCompareOptimized(s: string, t: string): boolean {
       tPointer--;
       continue;
     }
-    let backCount = 0;
-    while (s[sPointer] === "#") {
-      backCount++;
-      sPointer--;
-    }
-    sPointer -= backCount;
-    backCount = 0;
-    while (t[tPointer] === "#") {
-      backCount--;
-      tPointer--;
-    }
-    tPointer -= backCount;
   }
 
   return true;
 }
 
-console.log("ab#c - ad#c ===> ", backspaceCompareOptimized("ab#c", "ad#c"));
+console.log(
+  "bxj##tw - bxo#j##tw ===> ",
+  backspaceCompareOptimized("bxj##tw", "bxo#j##tw")
+);
