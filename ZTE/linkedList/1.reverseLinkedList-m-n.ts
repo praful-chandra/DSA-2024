@@ -1,11 +1,7 @@
-// 92. Reverse Linked List II
+// 92. currentNode = currentNode.next;
 
-// Given the head of a singly linked list and two integers left and right where left <= right, 
+// Given the head of a singly linked list and two integers left and right where left <= right,
 // reverse the nodes of the list from position left to position right, and return the reversed list.
-
-
-
-
 
 class ListNode {
   val: number;
@@ -70,5 +66,45 @@ function reverseBetween(
     startNode.next = afterEnd;
   }
 
+  return head;
+}
+
+function reverseBetweenSinglePass(
+  head: ListNode | null,
+  left: number,
+  right: number
+): ListNode | null {
+  let count = 1;
+  let previousNode: ListNode | null = null;
+  let currentNode: ListNode | null = head;
+  while (count <= left) {
+    if (count === left) {
+      let startNode: ListNode | null = currentNode;
+      let dummyPrevNode: ListNode | null = null;
+      while (count <= right) {
+        let temp: ListNode | null = startNode?.next ?? null;
+        if (startNode) {
+          startNode.next = dummyPrevNode;
+        }
+        dummyPrevNode = startNode;
+        startNode = temp;
+        count++;
+      }
+      if (previousNode) {
+        previousNode.next = dummyPrevNode;
+      } else {
+        head = dummyPrevNode;
+      }
+      if (currentNode) {
+        currentNode.next = startNode;
+      }
+      return head;
+    }
+    previousNode = currentNode;
+    if (currentNode) {
+      currentNode = currentNode.next;
+    }
+    count++;
+  }
   return head;
 }
