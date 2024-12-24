@@ -40,7 +40,7 @@ function traverseDFS(matrix, pos, seenPos, resultArr) {
   }
   if (direction < 4) {
     traverseDFS(matrix, nextPos, seenPos, resultArr);
-  }
+  } 
   return resultArr;
 }
 
