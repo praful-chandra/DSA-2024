@@ -1,8 +1,10 @@
 function canFinish(numCourses, prerequisites) {
-  const adjList = Array(numCourses).fill([]);
+  const adjList = Array(numCourses)
+    .fill(0)
+    .map(() => []);
 
   prerequisites.forEach((cPair) => {
-    adjList[cPair[1]] = [...adjList[cPair[1]], cPair[0]];
+    adjList[cPair[1]].push(cPair[0]);
   });
   let result = true;
   for (let thisCourse = 0; thisCourse < numCourses; thisCourse++) {
