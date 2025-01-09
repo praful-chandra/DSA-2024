@@ -1,3 +1,5 @@
+// 207. Course Schedule
+
 function canFinish(numCourses, prerequisites) {
   const adjList = Array(numCourses)
     .fill(0)
