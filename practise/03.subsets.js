@@ -1,4 +1,4 @@
-function subsets(nums) {
+function subString(nums) {
   const resultArr = [];
   findSubSets(nums, [], 0, resultArr);
   return resultArr;
@@ -37,4 +37,4 @@ function findSubSets(nums, result, pointer, acc) {
   findSubSets(nums, result, pointer + 1, acc);
 }
 
-console.log(subsets([1, 2, 3]));
+console.log(subString([1, 2, 3]));
