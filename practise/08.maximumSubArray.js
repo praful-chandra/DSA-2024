@@ -27,4 +27,21 @@ function getMaxSum(arr, currentIndex, cache) {
   return result;
 }
 
-console.log(findMaxSubArraySum([2, 1, 4, 9]));
+function getMaxSumTab(arr) {
+  const arrLength = nums.length;
+
+  const dpTable = new Array(arrLength).fill(-1);
+  dpTable[0] = 0;
+  dpTable[1] = nums[0];
+
+  for (let i = 1; i < nums.length; i++) {
+    const includeSum = nums[i] + dpTable[i - 1];
+    const excludeSum = dpTable[i];
+
+    dpTable[i + 1] = Math.max(includeSum, excludeSum);
+  }
+
+  return dpTable.pop();
+}
+
+console.log(getMaxSumTab([2, 1, 4, 9]));
