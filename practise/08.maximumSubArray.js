@@ -44,4 +44,19 @@ function getMaxSumTab(arr) {
   return dpTable.pop();
 }
 
+function getMaxSumoptimizedSpace(arr) {
+  let maxAt2 = 0;
+  let maxAt1 = arr[0];
+
+  for (let i = 1; i < arr.length; i++) {
+    const includeSum = arr[i] + maxAt2;
+    const excludeSum = maxAt1;
+
+    maxAt2 = maxAt1;
+    maxAt1 = Math.max(includeSum, excludeSum);
+  }
+
+  return maxAt1;
+}
+
 console.log(getMaxSumTab([2, 1, 4, 9]));
