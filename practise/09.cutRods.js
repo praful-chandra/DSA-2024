@@ -2,7 +2,7 @@
 function maximizeTheCuts(n, x, y, z) {
   // code here
   const dpArray = new Array(n + 1).fill(-1);
-  return cutRodsArr(n, [x, y, z], dpArray);
+  return cutRodsTab(n, [x, y, z], dpArray);
 }
 
 // function cutRods(rod, x, y, z, cache) {
@@ -53,4 +53,26 @@ function cutRodsArr(rod, segments, cache) {
   return maxCount;
 }
 
-console.log(maximizeTheCuts(7, 5, 5, 2));
+function cutRodsTab(rod, segments) {
+  const dpArr = new Array(rod + 1).fill(-1);
+  dpArr[0] = 0;
+  for (let i = 1; i < dpArr.length; i++) {
+    let maxLen = 0;
+    for (let len = 0; len < segments.length; len++) {
+      const nextRodLength = i - segments[len];
+      if (nextRodLength < 0) {
+        continue;
+      }
+      if (dpArr[nextRodLength] !== -1) {
+        maxLen = Math.max(maxLen, dpArr[nextRodLength] + 1);
+      }
+    }
+    if (maxLen !== 0) {
+      dpArr[i] = maxLen;
+    }
+  }
+  console.log(dpArr);
+  return dpArr[rod];
+}
+
+console.log(maximizeTheCuts(5, 5, 3, 2));
