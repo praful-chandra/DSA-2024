@@ -16,8 +16,14 @@ function findNumsOfPrime(n, m) {
     }
     num++;
   }
-  const result = findMinCombination(n, primeNums, {});
-  console.log({ n, primeNums, result });
+  //   const result = findMinCombination(n, primeNums, {});
+  const resultTab = findMinComninationTab(n, primeNums);
+  console.log({
+    n,
+    primeNums,
+    //   result,
+    resultTab,
+  });
 }
 
 function findMinCombination(target, primeNums, cache) {
@@ -42,4 +48,23 @@ function findMinCombination(target, primeNums, cache) {
   return minResult;
 }
 
+function findMinComninationTab(n, primeNums) {
+  const dpArr = new Array(n + 1).fill(Infinity);
+  dpArr[0] = 0;
+  for (let i = 1; i <= n; i++) {
+    for (let prime = 0; prime < primeNums.length; prime++) {
+      const nextTarget = i - primeNums[prime];
+      if (nextTarget > 0 && dpArr[nextTarget] !== Infinity) {
+        dpArr[i] = Math.min(dpArr[i], dpArr[nextTarget] + 1);
+      }
+      if (nextTarget === 0) {
+        dpArr[i] = 1;
+      }
+    }
+    // console.log({ num: i, min: dpArr[i] });
+  }
+  return dpArr[n];
+}
+
 findNumsOfPrime(11, 3);
+findNumsOfPrime(-1, -3);
