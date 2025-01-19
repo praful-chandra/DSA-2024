@@ -2,6 +2,7 @@ function findNumberOfWays(n, k) {
   console.log(findWaysRec(n, k) % 1000000007);
   console.log(findWaysRecMem(n, k, {}) % 1000000007);
   console.log(findWaysTab(n, k) % 1000000007);
+  console.log(findWaysTabSpaceOptimized(n, k) % 1000000007);
 }
 
 function findWaysRec(n, k) {
@@ -53,6 +54,19 @@ function findWaysTab(n, k) {
   }
 
   return dpArr[n];
+}
+
+function findWaysTabSpaceOptimized(n, k) {
+  let prev1 = k;
+  let prev2 = k + k * (k - 1);
+
+  for (let i = 3; i <= n; i++) {
+    const result = prev1 * (k - 1) + prev2 * (k - 1);
+    prev1 = prev2;
+    prev2 = result % 1000000007;
+  }
+
+  return prev2;
 }
 
 findNumberOfWays(4, 3);
