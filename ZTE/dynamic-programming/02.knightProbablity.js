@@ -23,6 +23,9 @@ function knightProbability(n, k, row, column) {
     const dpArr = new Array(k+1).fill(0).map(() => new Array(n).fill(0).map(() => new Array(n).fill(-1)))
     const recResullt = findProbablity([row, column], n, k, dpArr);
     const tabResult = findProbabTabulation(n, k, row, column);
+    const spaceResult = findProbabSpaceOpt(n, k, row, column);
+
+    console.log({recResullt, tabResult, spaceResult});
 };
 
 function findProbablity(pos, n, stepsRemaining, cache) {
@@ -76,6 +79,43 @@ function findProbabTabulation(n, k, row, column) {
     for (let r = 0; r < n; r++) {
         for (let c = 0; c < n; c++) {
             sumProb += dpArr[k][r][c]
+        }
+    }
+
+    return sumProb
+}
+
+
+function findProbabSpaceOpt(n, k, row, column) {
+    // const dpArr = new Array(k + 1).fill(0).map(() => new Array(n).fill(0).map(() => new Array(n).fill(-1)))
+
+    let stepNextArr = new Array(n).fill(0).map(() => new Array(n).fill(0))
+    let stepCurrArr = new Array(n).fill(0).map(() => new Array(n).fill(0))
+
+    stepCurrArr[row][column] = 1;
+
+    for (let step = 1; step <= k; step++) {
+        for (let r = 0; r < n; r++) {
+            for (let c = 0; c < n; c++) {
+                for (let ort = 0; ort < 4; ort++) {
+                    for (let cad = 0; cad < 2; cad++) {
+                        const [prevRow, prevCol] = getNextPosition([r, c], [ort, cad]);
+                        if (prevRow >= 0 && prevCol >= 0 && prevRow < n && prevCol < n) {
+                            stepNextArr[r][c] += stepCurrArr[prevRow][prevCol] / 8;
+                        }
+                    }
+                }
+            }
+        }
+        stepCurrArr = stepNextArr;
+        stepNextArr = new Array(n).fill(0).map(() => new Array(n).fill(0))
+    }
+
+    let sumProb = 0;
+
+    for (let r = 0; r < n; r++) {
+        for (let c = 0; c < n; c++) {
+            sumProb += stepCurrArr[r][c]
         }
     }
 
